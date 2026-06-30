@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "tsx src/index.ts",
+    "start": "NODE_OPTIONS=--no-deprecation tsx src/index.ts",
     "build": "tsc",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "example:llm": "NODE_OPTIONS=--no-deprecation tsx examples/real-llm.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
@@ -15,6 +17,7 @@
   "devDependencies": {
     "@types/node": "^26.0.1",
     "tsx": "^4.22.4",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
   }
 }

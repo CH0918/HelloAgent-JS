@@ -1,5 +1,7 @@
 import OpenAI from "openai";
 import "dotenv/config";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 interface ChatMessage {
   role: "system" | "user" | "assistant";
@@ -102,6 +104,8 @@ async function main(): Promise<void> {
   }
 }
 
-main();
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
+  main();
+}
 
 export { HelloAgentsLLM };

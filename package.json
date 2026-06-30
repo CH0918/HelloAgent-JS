@@ -8,7 +8,9 @@
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "example:llm": "NODE_OPTIONS=--no-deprecation tsx examples/real-llm.ts"
+    "example:llm": "NODE_OPTIONS=--no-deprecation tsx examples/real-llm.ts",
+    "example:evolink": "NODE_OPTIONS=--no-deprecation tsx examples/evolink-llm.ts",
+    "example:ollama": "NODE_OPTIONS=--no-deprecation tsx examples/ollama-llm.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.7",

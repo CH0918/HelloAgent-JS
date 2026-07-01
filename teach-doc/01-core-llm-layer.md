@@ -2,7 +2,7 @@
 
 这一节我们不先讨论复杂的 Agent、工具调用、记忆系统或工作流编排，而是从最基础的问题开始：如何手写一个可以被别人 `import` 的 TypeScript SDK，并让它完成一次大模型调用？
 
-本节配套代码仓库在 GitHub：<https://github.com/CH0918/HelloAgent-JS>。你可以先对照文章理解设计，再打开仓库查看完整源码和 examples。
+本节配套代码仓库在 GitHub：<https://github.com/CH0918/HelloAgent-JS/tree/7.4>。你可以先对照文章理解设计，再打开仓库查看完整源码和 examples。
 
 一个智能体框架最终会有很多模块，但最底层一定离不开三件事：
 

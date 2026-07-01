@@ -32,5 +32,10 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
 
 export { HelloAgentsLLM } from "./hello-agents-llm.js";
 export { MyLLM } from "./my-llm.js";
+export { Agent } from "./agent.js";
+export { Config } from "./config.js";
+export { Message } from "./message.js";
 export type { ChatMessage, HelloAgentsLLMOptions } from "./hello-agents-llm.js";
 export type { MyLLMOptions } from "./my-llm.js";
+export type { ConfigOptions } from "./config.js";
+export type { MessageOptions, MessageRole, OpenAIMessageDict } from "./message.js";

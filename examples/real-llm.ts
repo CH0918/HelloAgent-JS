@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import { HelloAgentsLLM } from "../src/index.js";
 
 async function main(): Promise<void> {

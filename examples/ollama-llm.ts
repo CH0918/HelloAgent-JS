@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import { MyLLM } from "../src/my-llm.js";
 
 async function main(): Promise<void> {

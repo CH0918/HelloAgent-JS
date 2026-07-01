@@ -10,6 +10,8 @@ interface HelloAgentsLLMOptions {
   model?: string;
   apiKey?: string;
   baseUrl?: string;
+  maxTokens?: number;
+  max_tokens?: number;
   timeout?: number;
 }
 
@@ -20,9 +22,18 @@ class HelloAgentsLLM {
   */
   private readonly model: string;
   private readonly client: OpenAI;
+  private readonly completionMaxTokens?: number;
 
-  constructor({ model, apiKey, baseUrl, timeout }: HelloAgentsLLMOptions = {}) {
+  constructor({
+    model,
+    apiKey,
+    baseUrl,
+    maxTokens,
+    max_tokens,
+    timeout,
+  }: HelloAgentsLLMOptions = {}) {
     this.model = model || process.env.LLM_MODEL_ID!;
+    this.completionMaxTokens = maxTokens ?? max_tokens;
     const resolvedApiKey = apiKey || process.env.LLM_API_KEY;
     const resolvedBaseUrl = baseUrl || process.env.LLM_BASE_URL;
     const resolvedTimeout = timeout ?? Number(process.env.LLM_TIMEOUT || 60);
@@ -53,6 +64,9 @@ class HelloAgentsLLM {
         messages,
         temperature,
         stream: true,
+        ...(this.completionMaxTokens === undefined
+          ? {}
+          : { max_tokens: this.completionMaxTokens }),
       });
 
       console.log("✅ 大语言模型响应成功:");

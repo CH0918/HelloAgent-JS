@@ -17,6 +17,9 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
 
+    /* Types */
+    "types": ["node"],
+
     /* Type Checking */
     "strict": true,
     "noUnusedLocals": true,

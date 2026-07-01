@@ -3,24 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "scripts": {
-    "start": "NODE_OPTIONS=--no-deprecation tsx src/index.ts",
-    "build": "tsc",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "example:llm": "NODE_OPTIONS=--no-deprecation tsx examples/real-llm.ts",
-    "example:evolink": "NODE_OPTIONS=--no-deprecation tsx examples/evolink-llm.ts",
-    "example:ollama": "NODE_OPTIONS=--no-deprecation tsx examples/ollama-llm.ts",
-    "example:omlx": "NODE_OPTIONS=--no-deprecation tsx examples/omlx-llm.ts"
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
   },
-  "dependencies": {
-    "dotenv": "^16.4.7",
-    "openai": "^4.77.0"
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/node": "^26.0.1",
-    "tsx": "^4.22.4",
-    "typescript": "^6.0.3",
-    "vitest": "^4.1.9"
+    "typescript": "^6.0.3"
   }
 }

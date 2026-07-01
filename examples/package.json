@@ -1,0 +1,9 @@
+{
+  "name": "helloagent-js-examples",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}

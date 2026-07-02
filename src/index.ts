@@ -8,9 +8,14 @@ export {
   ToolException,
 } from "./core/exceptions.js";
 export { Config } from "./core/config.js";
+export { Agent } from "./core/agent.js";
 export { HelloAgentsLLM } from "./core/llm.js";
 export { Message } from "./core/message.js";
+export { SimpleAgent } from "./agents/simple-agent.js";
+export { Tool } from "./tools/base.js";
+export { ToolRegistry, globalRegistry } from "./tools/registry.js";
 
+export type { AgentOptions } from "./core/agent.js";
 export type { ConfigDict, ConfigOptions } from "./core/config.js";
 export type {
   ChatMessage,
@@ -19,3 +24,13 @@ export type {
   SupportedProvider,
 } from "./core/llm.js";
 export type { MessageOptions, MessageRole, OpenAIMessage } from "./core/message.js";
+export type { SimpleAgentOptions, SimpleAgentRunOptions } from "./agents/simple-agent.js";
+export type {
+  OpenAIToolSchema,
+  ToolDict,
+  ToolParameter,
+  ToolParameters,
+  ToolParameterType,
+  ToolResult,
+} from "./tools/base.js";
+export type { RegisteredFunction } from "./tools/registry.js";

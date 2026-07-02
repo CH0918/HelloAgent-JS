@@ -1,6 +1,6 @@
 # HelloAgent-JS Example
 
-`examples/01-real-world-usage.mjs` 是本阶段唯一保留的完整用例。它演示 SDK 被真实业务代码引入后的典型流程：
+`examples/01-real-world-usage.mjs` 演示 SDK 被真实业务代码引入后的典型流程：
 
 - 读取 `examples/.env`
 - 初始化 `Config`
@@ -49,3 +49,12 @@ node examples/01-real-world-usage.mjs
 ```
 
 当前用例里显式使用 `provider: "local"`，默认会连接 `http://localhost:8000/v1`。如果你的本地服务地址不同，请修改 `examples/.env` 或示例中的 provider 配置。
+
+## SimpleAgent 工具调用
+
+`examples/02-simple-agent-with-tools.mjs` 演示一个更接近真实业务的报价助手。它会读取 `examples/.env`，使用 `HelloAgentsLLM` 初始化真实模型，然后通过 `SimpleAgent` 调用自定义的 `quote_calculator` 工具计算报价，并在第二轮基于历史上下文演示 `streamRun()` 流式输出。
+
+```bash
+pnpm build
+node examples/02-simple-agent-with-tools.mjs
+```

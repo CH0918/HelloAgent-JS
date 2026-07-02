@@ -2,7 +2,7 @@ import { Agent } from "../core/agent.js";
 import type { AgentOptions } from "../core/agent.js";
 import type { ChatMessage } from "../core/llm.js";
 import { Message } from "../core/message.js";
-import type { ToolParameters, ToolParameterType } from "../tools/base.js";
+import { executeRegisteredTool } from "../tools/executor.js";
 import { ToolRegistry } from "../tools/registry.js";
 import type { Tool } from "../tools/base.js";
 
@@ -173,144 +173,12 @@ ${toolsDescription}
       return "错误：未配置工具注册表";
     }
 
-    const tool = this.toolRegistry.getTool(toolName);
-    if (!tool) {
-      return `错误：未找到工具 '${toolName}'`;
-    }
-
     try {
-      const parsedParameters = this.parseToolParameters(tool, parameters);
-      const result = await tool.run(parsedParameters);
+      const result = await executeRegisteredTool(this.toolRegistry, toolName, parameters);
       return `工具 ${toolName} 执行结果：\n${result}`;
     } catch (error) {
       return `工具调用失败：${error instanceof Error ? error.message : String(error)}`;
     }
-  }
-
-  private parseToolParameters(tool: Tool, parameters: string): ToolParameters {
-    const trimmed = parameters.trim();
-    if (trimmed.startsWith("{")) {
-      try {
-        const parsed = JSON.parse(trimmed) as ToolParameters;
-        return this.convertParameterTypes(tool, parsed);
-      } catch {
-        // Falls through to the lightweight key=value parser below.
-      }
-    }
-
-    if (trimmed.includes("=")) {
-      const parsed: ToolParameters = {};
-      const pairs = trimmed.split(",");
-      for (const pair of pairs) {
-        const [key, ...valueParts] = pair.split("=");
-        const parameterName = key?.trim();
-        if (!parameterName) {
-          continue;
-        }
-        parsed[parameterName] = valueParts.join("=").trim();
-      }
-      return this.inferAction(tool.name, this.convertParameterTypes(tool, parsed));
-    }
-
-    return this.inferSimpleParameters(tool.name, trimmed);
-  }
-
-  private convertParameterTypes(tool: Tool, parameters: ToolParameters): ToolParameters {
-    const parameterTypes = new Map<string, ToolParameterType>();
-    for (const parameter of tool.getParameters()) {
-      parameterTypes.set(parameter.name, parameter.type);
-    }
-
-    const converted: ToolParameters = {};
-    for (const [key, value] of Object.entries(parameters)) {
-      const parameterType = parameterTypes.get(key);
-      converted[key] = this.convertValue(value, parameterType);
-    }
-
-    return converted;
-  }
-
-  private convertValue(value: unknown, parameterType: ToolParameterType | undefined): unknown {
-    if (typeof value !== "string" || parameterType === undefined) {
-      return value;
-    }
-
-    switch (parameterType) {
-      case "number": {
-        const parsed = Number(value);
-        return Number.isFinite(parsed) ? parsed : value;
-      }
-      case "integer": {
-        const parsed = Number(value);
-        return Number.isInteger(parsed) ? parsed : value;
-      }
-      case "boolean":
-        return ["true", "1", "yes"].includes(value.toLowerCase());
-      case "array":
-        return value.split("|").map((item) => item.trim());
-      case "object":
-      case "string":
-        return value;
-    }
-  }
-
-  private inferAction(toolName: string, parameters: ToolParameters): ToolParameters {
-    if (toolName === "memory") {
-      return this.inferMemoryAction(parameters);
-    }
-
-    if (toolName === "rag") {
-      return this.inferRagAction(parameters);
-    }
-
-    return parameters;
-  }
-
-  private inferMemoryAction(parameters: ToolParameters): ToolParameters {
-    if ("action" in parameters) {
-      return parameters;
-    }
-
-    if ("recall" in parameters) {
-      return { ...parameters, action: "search", query: parameters.recall };
-    }
-    if ("store" in parameters) {
-      return { ...parameters, action: "add", content: parameters.store };
-    }
-    if ("query" in parameters) {
-      return { ...parameters, action: "search" };
-    }
-    if ("content" in parameters) {
-      return { ...parameters, action: "add" };
-    }
-
-    return parameters;
-  }
-
-  private inferRagAction(parameters: ToolParameters): ToolParameters {
-    if ("action" in parameters) {
-      return parameters;
-    }
-
-    if ("search" in parameters) {
-      return { ...parameters, action: "search", query: parameters.search };
-    }
-    if ("query" in parameters) {
-      return { ...parameters, action: "search" };
-    }
-    if ("text" in parameters) {
-      return { ...parameters, action: "add_text" };
-    }
-
-    return parameters;
-  }
-
-  private inferSimpleParameters(toolName: string, parameters: string): ToolParameters {
-    if (toolName === "rag" || toolName === "memory") {
-      return { action: "search", query: parameters };
-    }
-
-    return { input: parameters };
   }
 
   private saveTurn(inputText: string, response: string): void {

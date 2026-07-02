@@ -58,3 +58,12 @@ node examples/01-real-world-usage.mjs
 pnpm build
 node examples/02-simple-agent-with-tools.mjs
 ```
+
+## ReActAgent 推理与行动循环
+
+`examples/03-react-agent.mjs` 演示 ReActAgent 的 `Thought -> Action -> Observation -> Finish` 工作流。它同样读取 `examples/.env`，使用真实模型，并注册 `quote_calculator` 工具，让模型先选择工具行动，再基于观察结果给出最终答案。
+
+```bash
+pnpm build
+node examples/03-react-agent.mjs
+```

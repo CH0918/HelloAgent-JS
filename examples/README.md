@@ -67,3 +67,12 @@ node examples/02-simple-agent-with-tools.mjs
 pnpm build
 node examples/03-react-agent.mjs
 ```
+
+## ReflectionAgent 自我反思与迭代优化
+
+`examples/04-reflection-agent.mjs` 演示 ReflectionAgent 的 `初始回答 -> 反思 -> 优化 -> 最终回答` 工作流。它读取 `examples/.env`，使用真实模型，分别运行默认提示词和自定义代码评审提示词两个场景，并通过 `onStep` 回调输出每一轮反思进度。
+
+```bash
+pnpm build
+node examples/04-reflection-agent.mjs
+```

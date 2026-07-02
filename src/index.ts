@@ -11,6 +11,7 @@ export { Config } from "./core/config.js";
 export { Agent } from "./core/agent.js";
 export { HelloAgentsLLM } from "./core/llm.js";
 export { Message } from "./core/message.js";
+export { DEFAULT_REFLECTION_PROMPTS, ReflectionAgent, ReflectionMemory } from "./agents/reflection-agent.js";
 export { DEFAULT_REACT_PROMPT, ReActAgent } from "./agents/react-agent.js";
 export { SimpleAgent } from "./agents/simple-agent.js";
 export { Tool } from "./tools/base.js";
@@ -26,6 +27,15 @@ export type {
   SupportedProvider,
 } from "./core/llm.js";
 export type { MessageOptions, MessageRole, OpenAIMessage } from "./core/message.js";
+export type {
+  ReflectionAgentOptions,
+  ReflectionAgentRunOptions,
+  ReflectionPrompts,
+  ReflectionRecord,
+  ReflectionRecordType,
+  ReflectionStepEvent,
+  ReflectionStepEventType,
+} from "./agents/reflection-agent.js";
 export type {
   ReActAgentOptions,
   ReActAgentRunOptions,

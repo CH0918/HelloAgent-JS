@@ -76,3 +76,12 @@ node examples/03-react-agent.mjs
 pnpm build
 node examples/04-reflection-agent.mjs
 ```
+
+## PlanAndSolveAgent 规划与逐步执行
+
+`examples/05-plan-and-solve-agent.mjs` 演示 PlanAndSolveAgent 的 `生成计划 -> 逐步执行 -> 最终答案` 工作流。它读取 `examples/.env`，使用真实模型，为一个 B2B SaaS 团队生成两周 AI 客户跟进助手试点方案，并通过 `onStep` 回调展示计划和每一步执行摘要。
+
+```bash
+pnpm build
+node examples/05-plan-and-solve-agent.mjs
+```

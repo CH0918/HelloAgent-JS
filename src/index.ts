@@ -13,6 +13,14 @@ export { HelloAgentsLLM } from "./core/llm.js";
 export { Message } from "./core/message.js";
 export { DEFAULT_REFLECTION_PROMPTS, ReflectionAgent, ReflectionMemory } from "./agents/reflection-agent.js";
 export { DEFAULT_REACT_PROMPT, ReActAgent } from "./agents/react-agent.js";
+export {
+  DEFAULT_EXECUTOR_PROMPT,
+  DEFAULT_PLAN_AND_SOLVE_PROMPTS,
+  DEFAULT_PLANNER_PROMPT,
+  Executor,
+  PlanAndSolveAgent,
+  Planner,
+} from "./agents/plan-and-solve-agent.js";
 export { SimpleAgent } from "./agents/simple-agent.js";
 export { Tool } from "./tools/base.js";
 export { executeRegisteredTool, parseToolParameters } from "./tools/executor.js";
@@ -27,6 +35,15 @@ export type {
   SupportedProvider,
 } from "./core/llm.js";
 export type { MessageOptions, MessageRole, OpenAIMessage } from "./core/message.js";
+export type {
+  ExecutorExecutionResult,
+  PlanAndSolveAgentOptions,
+  PlanAndSolveAgentRunOptions,
+  PlanAndSolvePrompts,
+  PlanAndSolveStepEvent,
+  PlanAndSolveStepEventType,
+  PlanAndSolveStepResult,
+} from "./agents/plan-and-solve-agent.js";
 export type {
   ReflectionAgentOptions,
   ReflectionAgentRunOptions,

@@ -41,6 +41,12 @@ export {
   executeRegisteredToolWithParameters,
   parseToolParameters,
 } from "./tools/executor.js";
+export { ToolChain, ToolChainManager } from "./tools/chain.js";
+export {
+  AsyncToolExecutor,
+  runBatchTool,
+  runParallelTools,
+} from "./tools/async-executor.js";
 export { ToolRegistry, globalRegistry } from "./tools/registry.js";
 
 export type { AgentOptions } from "./core/agent.js";
@@ -102,4 +108,18 @@ export type {
   SearchReturnMode,
   SearchToolOptions,
 } from "./tools/builtin/index.js";
+export type {
+  ToolChainContext,
+  ToolChainInfo,
+  ToolChainRunResult,
+  ToolChainStep,
+  ToolChainStepResult,
+  ToolChainToolOptions,
+} from "./tools/chain.js";
+export type {
+  AsyncToolExecutorOptions,
+  AsyncToolTask,
+  AsyncToolTaskResult,
+  AsyncToolTaskStatus,
+} from "./tools/async-executor.js";
 export type { RegisteredFunction } from "./tools/registry.js";

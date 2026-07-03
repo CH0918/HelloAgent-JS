@@ -105,3 +105,17 @@ node examples/07-built-in-search-tool.mjs
 ```
 
 `SearchTool` 同时支持 `tavily`、`serpapi`、`duckduckgo`、`searxng`、`perplexity`、`hybrid` 和 `advanced` 后端。示例固定使用 Tavily，是为了让验证路径更清楚。
+
+## 工具链与异步工具执行
+
+`examples/08-tool-chain-and-async-tools.mjs` 演示两个高级工具能力：
+
+- `ToolChain`：把多个工具按固定顺序串起来，让后续步骤引用前面步骤的输出。
+- `AsyncToolExecutor`：用 Promise 并发执行多个异步工具任务，适合批量查询和互不依赖的外部请求。
+
+示例默认不依赖真实模型，直接使用本地模拟的 CRM、用量、风险评估工具验证工具链和并行执行。如果 `examples/.env` 配好了 LLM 服务，再把注册后的工具链交给 `FunctionCallAgent` 作为一个普通工具调用。
+
+```bash
+pnpm build
+node examples/08-tool-chain-and-async-tools.mjs
+```

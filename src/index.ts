@@ -25,6 +25,18 @@ export {
 export { SimpleAgent } from "./agents/simple-agent.js";
 export { Tool } from "./tools/base.js";
 export {
+  SearchTool,
+  search,
+  searchDuckDuckGo,
+  searchHybrid,
+  searchPerplexity,
+  searchSerpApi,
+  searchSearxng,
+  searchTavily,
+  SUPPORTED_SEARCH_BACKENDS,
+  SUPPORTED_SEARCH_RETURN_MODES,
+} from "./tools/builtin/index.js";
+export {
   executeRegisteredTool,
   executeRegisteredToolWithParameters,
   parseToolParameters,
@@ -81,4 +93,13 @@ export type {
   ToolParameterType,
   ToolResult,
 } from "./tools/base.js";
+export type {
+  SearchBackend,
+  SearchFetchLike,
+  SearchFetchResponse,
+  SearchResponse,
+  SearchResult,
+  SearchReturnMode,
+  SearchToolOptions,
+} from "./tools/builtin/index.js";
 export type { RegisteredFunction } from "./tools/registry.js";

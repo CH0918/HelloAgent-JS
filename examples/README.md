@@ -94,3 +94,14 @@ node examples/05-plan-and-solve-agent.mjs
 pnpm build
 node examples/06-function-call-agent.mjs
 ```
+
+## 内置 SearchTool 搜索工具
+
+`examples/07-built-in-search-tool.mjs` 演示 SDK 内置 `SearchTool`。搜索工具仍然通过 `ToolRegistry` 注册，再由 `FunctionCallAgent` 以原生 function calling 方式调用。示例使用 Tavily 作为搜索 provider，需要在 `examples/.env` 中配置 `TAVILY_API_KEY`。
+
+```bash
+pnpm build
+node examples/07-built-in-search-tool.mjs
+```
+
+`SearchTool` 同时支持 `tavily`、`serpapi`、`duckduckgo`、`searxng`、`perplexity`、`hybrid` 和 `advanced` 后端。示例固定使用 Tavily，是为了让验证路径更清楚。

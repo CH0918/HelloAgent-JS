@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 
 import { HelloAgentsException } from "./exceptions.js";
-import type { MessageRole, OpenAIMessage } from "./message.js";
+import type { MessageRole, OpenAIMessage, OpenAIToolCall } from "./message.js";
 
 export type SupportedProvider =
   | "openai"
@@ -35,7 +35,9 @@ export interface HelloAgentsLLMOptions {
 
 interface ChatCompletionChoice {
   message?: {
-    content?: string | null;
+    content?: ChatCompletionContent | null;
+    refusal?: string | null;
+    tool_calls?: OpenAIToolCall[];
   };
   delta?: {
     content?: string | null;
@@ -49,6 +51,8 @@ interface ChatCompletionResponse {
 interface ChatCompletionChunk {
   choices: ChatCompletionChoice[];
 }
+
+type ChatCompletionContent = string | Array<{ text?: string } | { type?: string; text?: string }>;
 
 interface ChatCompletionCreateParams {
   model: string;
@@ -72,6 +76,13 @@ export interface OpenAICompatibleClient {
   };
 }
 
+export interface LLMMessageResponse {
+  role: "assistant";
+  content: string;
+  toolCalls: OpenAIToolCall[];
+  refusal?: string;
+}
+
 type Env = Record<string, string | undefined>;
 
 function currentEnv(): Env {
@@ -93,6 +104,26 @@ function readTimeout(env: Env, timeout: number | undefined): number {
 
 function isAsyncIterable(value: unknown): value is AsyncIterable<ChatCompletionChunk> {
   return typeof (value as { [Symbol.asyncIterator]?: unknown })?.[Symbol.asyncIterator] === "function";
+}
+
+function extractMessageContent(content: ChatCompletionContent | null | undefined): string {
+  if (content === null || content === undefined) {
+    return "";
+  }
+
+  if (typeof content === "string") {
+    return content;
+  }
+
+  return content
+    .map((part) => {
+      if (typeof part.text === "string") {
+        return part.text;
+      }
+
+      return "";
+    })
+    .join("");
 }
 
 export class HelloAgentsLLM {
@@ -380,7 +411,7 @@ export class HelloAgentsLLM {
     }
   }
 
-  async invoke(messages: ChatMessage[], options: Record<string, unknown> = {}): Promise<string> {
+  async invokeMessage(messages: ChatMessage[], options: Record<string, unknown> = {}): Promise<LLMMessageResponse> {
     try {
       const temperature = typeof options.temperature === "number" ? options.temperature : this.temperature;
       const maxTokens = typeof options.maxTokens === "number" ? options.maxTokens : this.maxTokens;
@@ -398,10 +429,23 @@ export class HelloAgentsLLM {
         throw new HelloAgentsException("LLM非流式调用返回了流式响应。");
       }
 
-      return response.choices[0]?.message?.content ?? "";
+      const message = response.choices[0]?.message;
+			console.log("***********************LLM response message:", JSON.stringify(message, null, 2));
+      const refusal = typeof message?.refusal === "string" ? message.refusal : undefined;
+      return {
+        role: "assistant",
+        content: extractMessageContent(message?.content),
+        toolCalls: message?.tool_calls ?? [],
+        refusal,
+      };
     } catch (error) {
       throw new HelloAgentsException(`LLM调用失败: ${error instanceof Error ? error.message : String(error)}`);
     }
+  }
+
+  async invoke(messages: ChatMessage[], options: Record<string, unknown> = {}): Promise<string> {
+    const response = await this.invokeMessage(messages, options);
+    return response.content;
   }
 
   streamInvoke(messages: ChatMessage[], options: Record<string, unknown> = {}): AsyncGenerator<string> {

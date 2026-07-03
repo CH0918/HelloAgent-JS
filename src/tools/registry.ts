@@ -1,4 +1,4 @@
-import type { Tool } from "./base.js";
+import type { OpenAIToolSchema, Tool } from "./base.js";
 import type { ToolParameter } from "./base.js";
 
 export type RegisteredFunction = (inputText: string) => string | Promise<string>;
@@ -92,6 +92,32 @@ export class ToolRegistry {
 
   getAllTools(): Tool[] {
     return [...this.tools.values()];
+  }
+
+  getOpenAIToolSchemas(): OpenAIToolSchema[] {
+    const schemas = [...this.tools.values()].map((tool) => tool.toOpenAISchema());
+
+    for (const [name, info] of this.functions.entries()) {
+      schemas.push({
+        type: "function",
+        function: {
+          name,
+          description: info.description,
+          parameters: {
+            type: "object",
+            properties: {
+              input: {
+                type: "string",
+                description: "输入文本",
+              },
+            },
+            required: ["input"],
+          },
+        },
+      });
+    }
+
+    return schemas;
   }
 
   clear(): void {

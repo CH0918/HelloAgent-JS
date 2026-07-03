@@ -11,6 +11,7 @@ export { Config } from "./core/config.js";
 export { Agent } from "./core/agent.js";
 export { HelloAgentsLLM } from "./core/llm.js";
 export { Message } from "./core/message.js";
+export { FunctionCallAgent } from "./agents/function-call-agent.js";
 export { DEFAULT_REFLECTION_PROMPTS, ReflectionAgent, ReflectionMemory } from "./agents/reflection-agent.js";
 export { DEFAULT_REACT_PROMPT, ReActAgent } from "./agents/react-agent.js";
 export {
@@ -23,7 +24,11 @@ export {
 } from "./agents/plan-and-solve-agent.js";
 export { SimpleAgent } from "./agents/simple-agent.js";
 export { Tool } from "./tools/base.js";
-export { executeRegisteredTool, parseToolParameters } from "./tools/executor.js";
+export {
+  executeRegisteredTool,
+  executeRegisteredToolWithParameters,
+  parseToolParameters,
+} from "./tools/executor.js";
 export { ToolRegistry, globalRegistry } from "./tools/registry.js";
 
 export type { AgentOptions } from "./core/agent.js";
@@ -31,10 +36,18 @@ export type { ConfigDict, ConfigOptions } from "./core/config.js";
 export type {
   ChatMessage,
   HelloAgentsLLMOptions,
+  LLMMessageResponse,
   OpenAICompatibleClient,
   SupportedProvider,
 } from "./core/llm.js";
-export type { MessageOptions, MessageRole, OpenAIMessage } from "./core/message.js";
+export type { MessageOptions, MessageRole, OpenAIMessage, OpenAIToolCall } from "./core/message.js";
+export type {
+  FunctionCallAgentOptions,
+  FunctionCallAgentRunOptions,
+  FunctionCallStepEvent,
+  FunctionCallStepEventType,
+  FunctionCallToolChoice,
+} from "./agents/function-call-agent.js";
 export type {
   ExecutorExecutionResult,
   PlanAndSolveAgentOptions,

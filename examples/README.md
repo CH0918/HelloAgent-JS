@@ -85,3 +85,12 @@ node examples/04-reflection-agent.mjs
 pnpm build
 node examples/05-plan-and-solve-agent.mjs
 ```
+
+## FunctionCallAgent 原生函数调用
+
+`examples/06-function-call-agent.mjs` 演示 FunctionCallAgent 的 OpenAI-compatible `tools -> tool_calls -> tool result -> final answer` 工作流。它读取 `examples/.env`，使用支持 `tools` 参数的真实模型服务，并注册报价计算、折扣审批、付款计划三个本地工具。
+
+```bash
+pnpm build
+node examples/06-function-call-agent.mjs
+```

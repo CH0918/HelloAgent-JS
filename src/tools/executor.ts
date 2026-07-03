@@ -58,6 +58,34 @@ export async function executeRegisteredTool(
   return `错误：未找到工具 '${toolName}'`;
 }
 
+export async function executeRegisteredToolWithParameters(
+  registry: ToolRegistry,
+  toolName: string,
+  parameters: ToolParameters,
+): Promise<string> {
+  const tool = registry.getTool(toolName);
+  if (tool) {
+    try {
+      const result = await tool.run(convertParameterTypes(tool, parameters));
+      return String(result);
+    } catch (error) {
+      return `工具调用失败：${error instanceof Error ? error.message : String(error)}`;
+    }
+  }
+
+  const func = registry.getFunction(toolName);
+  if (func) {
+    try {
+      const input = parameters.input;
+      return await func(typeof input === "string" ? input : JSON.stringify(parameters));
+    } catch (error) {
+      return `工具调用失败：${error instanceof Error ? error.message : String(error)}`;
+    }
+  }
+
+  return `错误：未找到工具 '${toolName}'`;
+}
+
 function convertParameterTypes(tool: Tool, parameters: ToolParameters): ToolParameters {
   const parameterTypes = new Map<string, ToolParameterType>();
   for (const parameter of tool.getParameters()) {

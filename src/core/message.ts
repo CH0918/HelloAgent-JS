@@ -1,5 +1,14 @@
 export type MessageRole = "user" | "assistant" | "system" | "tool";
 
+export interface OpenAIToolCall {
+  id: string;
+  type: "function";
+  function: {
+    name: string;
+    arguments: string;
+  };
+}
+
 export interface MessageOptions {
   timestamp?: Date;
   metadata?: Record<string, unknown>;
@@ -8,6 +17,9 @@ export interface MessageOptions {
 export interface OpenAIMessage {
   role: MessageRole;
   content: string;
+  name?: string;
+  tool_call_id?: string;
+  tool_calls?: OpenAIToolCall[];
 }
 
 export class Message {

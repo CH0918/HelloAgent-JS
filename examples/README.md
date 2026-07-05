@@ -119,3 +119,43 @@ node examples/07-built-in-search-tool.mjs
 pnpm build
 node examples/08-tool-chain-and-async-tools.mjs
 ```
+
+## 完整记忆系统
+
+`examples/09-memory-system.mjs` 演示 SDK 内置记忆系统。默认路径只验证 `WorkingMemory` 和 `MemoryTool`，不需要外部数据库；如果设置 `RUN_FULL_MEMORY_DEMO=1`，会继续验证 Python 对齐的 `EpisodicMemory`、`SemanticMemory` 和 `PerceptualMemory`。
+
+`examples/09-1-embedding-demo.mjs` 演示最小业务语义匹配：用户输入一个客服问题，示例读取 `examples/.env` 里的 `EMBED_*`，用 embedding 从 3 条 FAQ 中找出最匹配的答案。
+
+```bash
+pnpm build
+node examples/09-1-embedding-demo.mjs
+```
+
+`examples/09-02-qdrant-business-demo.mjs` 演示 Embedding + Qdrant 的真实业务检索链路：把客服知识库条目转成向量写入 Qdrant，再用一条用户工单召回最相关的处理方案。运行前需要在 `examples/.env` 中配置好 `EMBED_*` 和 `QDRANT_*`。
+
+```bash
+pnpm build
+node examples/09-02-qdrant-business-demo.mjs
+```
+
+`examples/09-03-neo4j-business-demo.mjs` 演示一个更简单的 Neo4j 关系图场景：写入客户、系统、团队和问题 4 个实体，再从客户出发查询直接关系和两跳内相关实体。运行前需要在 `examples/.env` 中配置好 `NEO4J_*`。
+
+```bash
+pnpm build
+node examples/09-03-neo4j-business-demo.mjs
+```
+
+完整后端路径需要安装可选依赖并准备 Qdrant / Neo4j：
+
+```bash
+pnpm add -w better-sqlite3 neo4j-driver @xenova/transformers
+docker run -p 6333:6333 qdrant/qdrant
+docker run -p 7474:7474 -p 7687:7687 -e NEO4J_AUTH=neo4j/hello-agents-password neo4j:5
+```
+
+运行：
+
+```bash
+pnpm build
+node examples/09-memory-system.mjs
+```

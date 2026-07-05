@@ -1,3 +1,4 @@
+export { MemoryTool } from "./memory.js";
 export {
   SearchTool,
   search,
@@ -11,6 +12,7 @@ export {
   SUPPORTED_SEARCH_RETURN_MODES,
 } from "./search.js";
 
+export type { MemoryToolOptions } from "./memory.js";
 export type {
   SearchBackend,
   SearchFetchLike,

@@ -8,6 +8,11 @@ export {
   ToolException,
 } from "./core/exceptions.js";
 export { Config } from "./core/config.js";
+export {
+  getDatabaseConfig,
+  loadDatabaseConfig,
+  updateDatabaseConfig,
+} from "./core/database-config.js";
 export { Agent } from "./core/agent.js";
 export { HelloAgentsLLM } from "./core/llm.js";
 export { Message } from "./core/message.js";
@@ -25,6 +30,7 @@ export {
 export { SimpleAgent } from "./agents/simple-agent.js";
 export { Tool } from "./tools/base.js";
 export {
+  MemoryTool,
   SearchTool,
   search,
   searchDuckDuckGo,
@@ -36,6 +42,32 @@ export {
   SUPPORTED_SEARCH_BACKENDS,
   SUPPORTED_SEARCH_RETURN_MODES,
 } from "./tools/builtin/index.js";
+export {
+  BaseMemory,
+  createEmbeddingModel,
+  createEmbeddingModelWithFallback,
+  DashScopeEmbedding,
+  Entity,
+  EpisodicMemory,
+  getDimension,
+  getTextEmbedder,
+  LocalTransformerEmbedding,
+  MemoryConfig,
+  MemoryItem,
+  MemoryManager,
+  Neo4jGraphStore,
+  OpenAICompatibleEmbedding,
+  Perception,
+  PerceptualMemory,
+  QdrantConnectionManager,
+  QdrantVectorStore,
+  refreshEmbedder,
+  Relation,
+  SemanticMemory,
+  SQLiteDocumentStore,
+  TFIDFEmbedding,
+  WorkingMemory,
+} from "./memory/index.js";
 export {
   executeRegisteredTool,
   executeRegisteredToolWithParameters,
@@ -51,6 +83,11 @@ export { ToolRegistry, globalRegistry } from "./tools/registry.js";
 
 export type { AgentOptions } from "./core/agent.js";
 export type { ConfigDict, ConfigOptions } from "./core/config.js";
+export type {
+  DatabaseConfig,
+  Neo4jConfig,
+  QdrantConfig,
+} from "./core/database-config.js";
 export type {
   ChatMessage,
   HelloAgentsLLMOptions,
@@ -100,6 +137,7 @@ export type {
   ToolResult,
 } from "./tools/base.js";
 export type {
+  MemoryToolOptions,
   SearchBackend,
   SearchFetchLike,
   SearchFetchResponse,
@@ -108,6 +146,25 @@ export type {
   SearchReturnMode,
   SearchToolOptions,
 } from "./tools/builtin/index.js";
+export type {
+  DocumentStore,
+  EmbeddingInput,
+  EmbeddingModel,
+  EmbeddingModelOptions,
+  MemoryConfigOptions,
+  MemoryItemInput,
+  MemoryManagerOptions,
+  MemoryManagerStats,
+  MemoryMetadata,
+  MemoryStats,
+  MemoryType,
+  Neo4jGraphStoreOptions,
+  QdrantSearchHit,
+  QdrantVectorStoreOptions,
+  RetrieveMemoryOptions,
+  SearchMemoriesOptions,
+  StoredMemory,
+} from "./memory/index.js";
 export type {
   ToolChainContext,
   ToolChainInfo,

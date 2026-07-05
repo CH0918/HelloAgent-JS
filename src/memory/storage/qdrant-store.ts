@@ -1,4 +1,4 @@
-import { currentEnv, generateId, isUuid, readBoolean, readInteger } from "../utils.js";
+import { currentEnv, isUuid, readBoolean, readInteger } from "../utils.js";
 
 export interface QdrantVectorStoreOptions {
   url?: string;
@@ -171,6 +171,18 @@ export class QdrantVectorStore {
     });
   }
 
+  async deleteByFilter(where: Record<string, unknown>): Promise<void> {
+    const filter = buildFilter(where);
+    if (!filter) {
+      return;
+    }
+    await this.ensureCollection();
+    await this.request(`/collections/${encodeURIComponent(this.collectionName)}/points/delete?wait=true`, {
+      method: "POST",
+      body: JSON.stringify({ filter }),
+    });
+  }
+
   async clearCollection(): Promise<boolean> {
     try {
       await this.request(`/collections/${encodeURIComponent(this.collectionName)}`, { method: "DELETE" });
@@ -326,7 +338,21 @@ function normalizePointId(value: string | undefined): string {
   if (value && isUuid(value)) {
     return value;
   }
-  return generateId();
+  return generateUuidV4();
+}
+
+function generateUuidV4(): string {
+  const bytes = new Array<number>(16).fill(0).map(() => Math.floor(Math.random() * 256));
+  bytes[6] = ((bytes[6] ?? 0) & 0x0f) | 0x40;
+  bytes[8] = ((bytes[8] ?? 0) & 0x3f) | 0x80;
+  const hex = bytes.map((byte) => byte.toString(16).padStart(2, "0"));
+  return [
+    hex.slice(0, 4).join(""),
+    hex.slice(4, 6).join(""),
+    hex.slice(6, 8).join(""),
+    hex.slice(8, 10).join(""),
+    hex.slice(10, 16).join(""),
+  ].join("-");
 }
 
 function buildFilter(where: Record<string, unknown> | undefined): Record<string, unknown> | undefined {

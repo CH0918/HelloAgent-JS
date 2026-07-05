@@ -26,6 +26,19 @@ export {
   QdrantVectorStore,
   SQLiteDocumentStore,
 } from "./storage/index.js";
+export {
+  DocumentProcessor,
+  RAGPipeline,
+  computeGraphSignalsFromHits,
+  compressRankedItems,
+  createDocument,
+  createRAGPipeline,
+  loadAndChunkTexts,
+  loadTextFile,
+  mergeSnippetsGrouped,
+  preprocessMarkdownForEmbedding,
+  rankVectorHits,
+} from "./rag/index.js";
 
 export type {
   MemoryConfigOptions,
@@ -46,3 +59,17 @@ export type {
   SearchMemoriesOptions,
   StoredMemory,
 } from "./storage/index.js";
+export type {
+  LoadAndChunkOptions,
+  RAGAddDocumentsOptions,
+  RAGAddTextOptions,
+  RAGAdvancedSearchOptions,
+  RAGChunk,
+  RAGDocument,
+  RAGDocumentProcessorOptions,
+  RAGPipelineOptions,
+  RAGPipelineStats,
+  RAGSearchOptions,
+  RAGSearchResult,
+  RAGVectorBackend,
+} from "./rag/index.js";

@@ -1,4 +1,5 @@
 export { MemoryTool } from "./memory.js";
+export { RAGTool } from "./rag.js";
 export {
   SearchTool,
   search,
@@ -13,6 +14,7 @@ export {
 } from "./search.js";
 
 export type { MemoryToolOptions } from "./memory.js";
+export type { RAGToolOptions } from "./rag.js";
 export type {
   SearchBackend,
   SearchFetchLike,

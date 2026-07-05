@@ -159,3 +159,19 @@ docker run -p 7474:7474 -p 7687:7687 -e NEO4J_AUTH=neo4j/hello-agents-password n
 pnpm build
 node examples/09-memory-system.mjs
 ```
+
+## RAG 知识库检索
+
+`examples/10-rag-system.mjs` 演示第 10 章的 RAG 知识库检索。默认使用 `memory` 后端和 `tfidf` embedding，不需要 Qdrant 或真实 LLM，适合先验证文档切块、索引、检索和 `RAGTool` 工具形态。
+
+```bash
+pnpm build
+node examples/10-rag-system.mjs
+```
+
+`examples/10-02-rag-qdrant-demo.mjs` 演示真实 Qdrant 后端。运行前需要在 `examples/.env` 中配置 `EMBED_*`、`QDRANT_*`，并启动 Qdrant。
+
+```bash
+pnpm build
+node examples/10-02-rag-qdrant-demo.mjs
+```
